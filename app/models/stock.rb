@@ -10,10 +10,10 @@ class Stock < ActiveRecord::Base
     begin
         looked_up_stock = StockQuote::Stock.quote(ticker_symbol)
         new(name: looked_up_stock.company_name, ticker: looked_up_stock.symbol, last_price: looked_up_stock.latest_price)
-    rescue ZeroDivisionError => e
-      puts "Exception Class: #{ e.class.name }"
-      puts "Exception Message: #{ e.message }"
-      puts "Exception Backtrace: #{ e.backtrace }"
+    rescue StandardError #=> error
+      #notify_airbrake(error)
+      #return nil
     end
   end
+  
 end
